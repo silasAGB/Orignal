@@ -16,7 +16,7 @@ return [
         ],
     ],
     'sidebar' => [
-        'type'    => 'dark',
+        'type'    => 'light', // Assurez-vous que c'est bien 'light'
         'shadow'  => 4,
         'border'  => false,
         'compact' => false,
@@ -25,11 +25,11 @@ return [
             'shadow' => 1,
         ],
         'brand'   => [
-            'bg'   => 'gray-dark',
+            'bg'   => 'white',
             'logo' => [
-                'bg'     => 'blue',
-                'icon'   => '<i class="fa fa-cubes"></i>',
-                'text'   => '<strong>BO</strong>ilerplate',
+                'bg'     => 'white',
+                'icon'   => '<img src="/assets/vendor/boilerplate/images/vendor/bootstrap-fileinput/logo_fond_blanc-removebg-preview.png" alt="Logo" class="navbar-logo">',
+                'text'   => '',
                 'shadow' => 2,
             ],
         ],
@@ -40,7 +40,7 @@ return [
     ],
     'footer'  => [
         'visible'    => true,
-        'vendorname' => 'Boilerplate',
+        'vendorname' => 'PAP-FAMILY',
         'vendorlink' => '',
     ],
     'card'    => [

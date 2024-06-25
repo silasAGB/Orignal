@@ -13,8 +13,8 @@
             </strong>
             {{ __('boilerplate::layout.rightsres') }}
         </div>
-        <a href="https://github.com/sebastienheyd/boilerplate">
+       {{--}} <a href="https://github.com/sebastienheyd/boilerplate">
             Boilerplate | {{ \Composer\InstalledVersions::getPrettyVersion('sebastienheyd/boilerplate') }}
-        </a>
+        </a> --}}
     </div>
 </footer>
