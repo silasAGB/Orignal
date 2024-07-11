@@ -15,7 +15,8 @@ class Approbation extends Model
         'user_id','type','model_id','satus',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

@@ -3,77 +3,85 @@
 namespace App\Http\Controllers;
 
 use App\Models\Production;
+use App\Models\Produit;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ProductionController extends Controller
 {
-    // Méthode pour afficher toutes les productions
     public function index()
     {
         $productions = Production::all();
-        return view('productions.index', compact('productions'));
+        return view('boilerplate::productions.gerer', compact('productions'));
     }
 
-    // Méthode pour afficher un formulaire de création de production
     public function create()
     {
-        return view('productions.create');
+        $produits = Produit::all();
+        return view('boilerplate::productions.create', compact('produits'));
     }
 
-    // Méthode pour enregistrer une nouvelle production
     public function store(Request $request)
     {
         $request->validate([
             'date_prevue' => 'required|date',
             'qte_prevue' => 'required|numeric',
             'id_Produit' => 'required|exists:produits,id_Produit',
-            // Ajoutez d'autres règles de validation selon vos besoins
         ]);
 
-        Production::create($request->all());
+        $production = new Production();
+        $production->date_prevue = $request->input('date_prevue');
+        $production->qte_prevue = $request->input('qte_prevue');
+        $production->id_Produit = $request->input('id_Produit');
+        $production->statut = 'en attente d\'approbation'; // Assurez-vous que le statut est défini correctement
+        $production->save();
 
-        return redirect()->route('productions.index')
-            ->with('success', 'Production ajoutée avec succès.');
+        return redirect()->route('boilerplate.productions.gerer')
+                         ->with('success', 'Production ajoutée avec succès.');
     }
 
-    // Méthode pour afficher les détails d'une production spécifique
     public function show($id)
     {
         $production = Production::findOrFail($id);
-        return view('productions.show', compact('production'));
+        return view('boilerplate::productions.show', compact('production'));
     }
 
-    // Méthode pour afficher le formulaire de modification d'une production
     public function edit($id)
     {
         $production = Production::findOrFail($id);
-        return view('productions.edit', compact('production'));
+        $produits = Produit::all();
+        return view('boilerplate::productions.edit', compact('production', 'produits'));
     }
 
-    // Méthode pour mettre à jour une production
     public function update(Request $request, $id)
     {
         $request->validate([
             'date_prevue' => 'required|date',
             'qte_prevue' => 'required|numeric',
             'id_Produit' => 'required|exists:produits,id_Produit',
-            // Ajoutez d'autres règles de validation selon vos besoins
+            'statut' => 'required|string|max:255', // Assurez-vous que toutes les colonnes nécessaires sont validées ici
         ]);
 
         $production = Production::findOrFail($id);
-        $production->update($request->all());
+        $production->fill($request->all()); // Mettez à jour toutes les colonnes à partir des données du formulaire
+        $production->save();
 
-        return redirect()->route('productions.index')
-            ->with('success', 'Production mise à jour avec succès.');
+        return redirect()->route('boilerplate.productions.gerer')
+                         ->with('success', 'Production mise à jour avec succès.');
     }
 
-    // Méthode pour supprimer une production
     public function destroy($id)
     {
         $production = Production::findOrFail($id);
         $production->delete();
 
-        return redirect()->route('productions.index')
-            ->with('success', 'Production supprimée avec succès.');
+        return redirect()->route('boilerplate.productions.gerer')
+                         ->with('success', 'Production supprimée avec succès.');
+    }
+
+    public function statistiques()
+    {
+        // Logique pour afficher les statistiques des productions
+        return view('boilerplate::productions.statistiques');
     }
 }

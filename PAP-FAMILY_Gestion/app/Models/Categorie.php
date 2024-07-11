@@ -13,8 +13,14 @@ class Categorie extends Model
 
     protected $fillable = ['code_categorie', 'nom_categorie'];
 
-    public function produit ()
+    public function produits()
     {
-        return $this->hasMany(produit::class, 'id_categorie');
+        return $this->hasMany(Produit::class, 'id_categorie');
+    }
+
+    public function matieresPremieres()
+    {
+        return $this->hasMany(MatierePremiere::class, 'id_categorie');
     }
 }
+

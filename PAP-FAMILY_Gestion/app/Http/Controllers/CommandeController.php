@@ -11,7 +11,7 @@ class CommandeController extends Controller
     public function index()
     {
         $commandes = Commande::all();
-        return view('commandes.index', compact('commandes'));
+        return view('boilerplate::commandes.gerer', compact('commandes'));
     }
 
     // Méthode pour afficher un formulaire de création de commande
@@ -81,5 +81,10 @@ class CommandeController extends Controller
 
         return redirect()->route('commandes.index')
             ->with('success', 'Commande supprimée avec succès.');
+    }
+
+    public function statistiques()
+    {
+        return view('boilerplate::commandes.statistiques');
     }
 }

@@ -10,8 +10,7 @@ use App\Models\Production;
 class ApprobationController extends Controller
 {
     public function index(){
-        $approbation = Approbation::where('status','attente')->get();
-        return view('approbation.index', compact('Approbation'));
+        return view('boilerplate::approbations.approbations');
     }
 
     public function approuvé($id)
@@ -52,4 +51,11 @@ class ApprobationController extends Controller
 
         return redirect()->route('approbation.index')->with('success', 'L\'approbation a été rejetée avec succès.');
     }
+
+    public function gerer (){
+        return view('boilerplate::approbations.gerer');
+    }
+
+
+
 }

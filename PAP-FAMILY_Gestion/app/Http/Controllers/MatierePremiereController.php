@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MatierePremiere;
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class MatierePremiereController extends Controller
@@ -11,13 +12,14 @@ class MatierePremiereController extends Controller
     public function index()
     {
         $matieresPremieres = MatierePremiere::all();
-        return view('matieres.index', compact('matieresPremieres'));
+        return view('boilerplate::matierepremieres.list', compact('matieresPremieres'));
     }
 
     // Méthode pour afficher un formulaire de création de matière première
     public function create()
     {
-        return view('matieres.create');
+        $categories = Categorie::all(); // Pour permettre la sélection de la catégorie dans le formulaire
+        return view('boilerplate::matierepremieres.create', compact('categories'));
     }
 
     // Méthode pour enregistrer une nouvelle matière première
@@ -26,56 +28,61 @@ class MatierePremiereController extends Controller
         $request->validate([
             'nom_MP' => 'required',
             'prix_achat' => 'required|numeric',
-            'qte_stock' => 'required|numeric',
-            'seuil_stock' => 'required|numeric',
             'unite' => 'required',
+            'qte_stock' => 'required|numeric',
+            'stock_min' => 'required|numeric',
+            'emplacement' => 'required|string',
+            'id_categorie' => 'required|exists:categories,id_categorie',
         ]);
 
-        MatierePremiere::create($request->all());
+        $matierePremiere = MatierePremiere::create($request->all());
 
-        return redirect()->route('matieres.index')
+        return redirect()->route('boilerplate.matierepremieres.index')
             ->with('success', 'Matière première ajoutée avec succès.');
     }
 
     // Méthode pour afficher les détails d'une matière première spécifique
-    public function show($id)
+    public function show($id_MP)
     {
-        $matierePremiere = MatierePremiere::findOrFail($id);
-        return view('matieres.show', compact('matierePremiere'));
+        $matierePremiere = MatierePremiere::findOrFail($id_MP);
+        return view('boilerplate::matierepremieres.show', compact('matierePremiere'));
     }
 
     // Méthode pour afficher le formulaire de modification d'une matière première
-    public function edit($id)
+    public function edit($id_MP)
     {
-        $matierePremiere = MatierePremiere::findOrFail($id);
-        return view('matieres.edit', compact('matierePremiere'));
+        $matierePremiere = MatierePremiere::findOrFail($id_MP);
+        $categories = Categorie::all(); // Pour permettre la sélection de la catégorie dans le formulaire
+        return view('boilerplate::matierepremieres.edit', compact('matierePremiere', 'categories'));
     }
 
     // Méthode pour mettre à jour une matière première
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_MP)
     {
         $request->validate([
             'nom_MP' => 'required',
             'prix_achat' => 'required|numeric',
-            'qte_stock' => 'required|numeric',
-            'seuil_stock' => 'required|numeric',
             'unite' => 'required',
+            'qte_stock' => 'required|numeric',
+            'stock_min' => 'required|numeric',
+            'emplacement' => 'required|string',
+            'id_categorie' => 'required|exists:categories,id_categorie',
         ]);
 
-        $matierePremiere = MatierePremiere::findOrFail($id);
+        $matierePremiere = MatierePremiere::findOrFail($id_MP);
         $matierePremiere->update($request->all());
 
-        return redirect()->route('matieres.index')
-            ->with('success', 'Matière première mise à jour avec succès.');
+        return redirect()->route('boilerplate.matierepremieres.index')
+        ->with('growl', ["Matière première mise à jour avec succès.", 'success']);
     }
 
     // Méthode pour supprimer une matière première
-    public function destroy($id)
+    public function destroy($id_MP)
     {
-        $matierePremiere = MatierePremiere::findOrFail($id);
+        $matierePremiere = MatierePremiere::findOrFail($id_MP);
         $matierePremiere->delete();
 
-        return redirect()->route('matieres.index')
-            ->with('success', 'Matière première supprimée avec succès.');
+        return redirect()->route('boilerplate.matierepremieres.index')
+        ->with('growl', ["Matière première supprimé avec succès.", 'success']);
     }
 }

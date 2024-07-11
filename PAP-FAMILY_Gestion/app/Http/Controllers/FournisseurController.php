@@ -11,13 +11,13 @@ class FournisseurController extends Controller
     public function index()
     {
         $fournisseurs = Fournisseur::all();
-        return view('fournisseurs.index', compact('fournisseurs'));
+        return view('boilerplate::approvisionnements.fournisseurs', compact('fournisseurs'));
     }
 
     // Méthode pour afficher un formulaire de création de fournisseur
     public function create()
     {
-        return view('fournisseurs.create');
+        return view('boilerplate::approvisionnements.createfournisseur');
     }
 
     // Méthode pour enregistrer un nouveau fournisseur
@@ -32,27 +32,32 @@ class FournisseurController extends Controller
 
         Fournisseur::create($request->all());
 
-        return redirect()->route('fournisseurs.index')
-            ->with('success', 'Fournisseur ajouté avec succès.');
+        return redirect()->route('boilerplate.approvisionnements.fournisseurs')
+            ->with('growl', [__('fournisseur créé'), 'success']);
     }
 
     // Méthode pour afficher les détails d'un fournisseur spécifique
-    public function show($id)
+    public function show($id_fournisseur)
     {
-        $fournisseur = Fournisseur::findOrFail($id);
-        return view('fournisseurs.show', compact('fournisseur'));
+dd(
+$id_fournisseur
+);
+        $fournisseur = Fournisseur::findOrFail($id_fournisseur);
+        return view('boilerplate::approvisionnements.fournisseur', compact('fournisseur'));
     }
 
     // Méthode pour afficher le formulaire de modification d'un fournisseur
-    public function edit($id)
+    public function edit($id_fournisseur)
     {
-        $fournisseur = Fournisseur::findOrFail($id);
-        return view('fournisseurs.edit', compact('fournisseur'));
+        $fournisseur = Fournisseur::findOrFail($id_fournisseur);
+        return view('boilerplate::approvisionnements.editfournisseur', compact('fournisseur'));
     }
 
     // Méthode pour mettre à jour un fournisseur
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_fournisseur)
     {
+        dd($id_fournisseur);
+
         $request->validate([
             'nom_fournisseur' => 'required',
             'contact_fournisseur' => 'required',
@@ -60,20 +65,20 @@ class FournisseurController extends Controller
             'adresse_fournisseur' => 'required',
         ]);
 
-        $fournisseur = Fournisseur::findOrFail($id);
+        $fournisseur = Fournisseur::findOrFail($id_fournisseur);
         $fournisseur->update($request->all());
 
-        return redirect()->route('fournisseurs.index')
+        return redirect()->route('boilerplate.approvisionnements.fournisseurs')
             ->with('success', 'Fournisseur mis à jour avec succès.');
     }
 
     // Méthode pour supprimer un fournisseur
-    public function destroy($id)
+    public function destroy($id_fournisseur)
     {
-        $fournisseur = Fournisseur::findOrFail($id);
+        $fournisseur = Fournisseur::findOrFail($id_fournisseur);
         $fournisseur->delete();
 
-        return redirect()->route('fournisseurs.index')
+        return redirect()->route('boilerplate.approvisionnements.fournisseurs')
             ->with('success', 'Fournisseur supprimé avec succès.');
     }
 }

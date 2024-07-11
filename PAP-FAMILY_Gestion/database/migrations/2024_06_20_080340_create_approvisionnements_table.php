@@ -20,6 +20,7 @@ class CreateApprovisionnementsTable extends Migration
             $table->integer('qte_approvisionnement');
             $table->float('montant',8, 2);
             $table->unsignedBigInteger('id_fournisseur');
+            $table->string('status')->default('en attente d\'approbation');
             $table->timestamps();
 
             $table->foreign('id_fournisseur')->references('id_fournisseur')->on('fournisseurs')->onDelete('cascade');

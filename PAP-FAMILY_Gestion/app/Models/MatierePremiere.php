@@ -11,10 +11,12 @@ class MatierePremiere extends Model
 
     protected $primaryKey = 'id_MP';
 
-    protected $fillable = ['nom_MP', 'prix_achat', 'qte_stock', 'seuil_stock', 'unite'];
+    protected $fillable = ['nom_MP', 'prix_achat','unite','qte_stock','stock_min','emplacement','id_categorie'];
 
-    public function fournisseurs()
+
+    public function categorie()
     {
-        return $this->belongsToMany(Fournisseur::class, 'fournisseur_mat', 'id_MP', 'id_fournisseur');
+        return $this->belongsTo(Categorie::class, 'id_categorie');
     }
+
 }

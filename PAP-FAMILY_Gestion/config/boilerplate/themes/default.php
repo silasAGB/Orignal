@@ -9,14 +9,17 @@ return [
     'navbar'  => [
         'bg'     => 'white',
         'type'   => 'light',
+        'right' => [
+            'boilerplate::notifications.notification',
+        ],
         'border' => true,
         'user'   => [
-            'visible' => false,
+            'visible' => true,
             'shadow'  => 0,
         ],
     ],
     'sidebar' => [
-        'type'    => 'light', // Assurez-vous que c'est bien 'light'
+        'type'    => 'light',
         'shadow'  => 4,
         'border'  => false,
         'compact' => false,
@@ -34,7 +37,7 @@ return [
             ],
         ],
         'user'    => [
-            'visible' => true,
+            'visible' => false,
             'shadow'  => 2,
         ],
     ],

@@ -11,7 +11,7 @@ class Approvisionnement extends Model
 
     protected $primaryKey = 'id_approvisionnement';
 
-    protected $fillable = ['date_approvisionnement', 'reference_approvisionnement', 'qte_approvisionnement', 'montant', 'id_fournisseur'];
+    protected $fillable = ['date_approvisionnement', 'reference_approvisionnement', 'qte_approvisionnement', 'montant', 'id_fournisseur', 'status'];
 
     public function fournisseur()
     {

@@ -19,7 +19,7 @@ class CreateApprobationsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('type');
-            $table->unsignedBigInteger('dmodel_i');//id de l'entité concerné (Production_id ou approvisionnement_id)
+            $table->unsignedBigInteger('model_id');
             $table->string('statut')->default('attente');
             $table->timestamps();
 

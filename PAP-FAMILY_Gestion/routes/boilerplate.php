@@ -14,6 +14,19 @@ use App\Http\Controllers\Boilerplate\Logs\LogViewerController;
 use App\Http\Controllers\Boilerplate\Select2Controller;
 use App\Http\Controllers\Boilerplate\Users\RolesController;
 use App\Http\Controllers\Boilerplate\Users\UsersController;
+use App\Http\Controllers\ApprovisionnementController;
+use App\Http\Controllers\ProductionController;
+use App\Http\Controllers\RapportController;
+use App\Http\Controllers\CommandeController;
+use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\MatierePremiereController;
+use App\Http\Controllers\ApprobationController;
+use App\Http\Controllers\FournisseurController;
+use App\Http\Controllers\MatierePremieresStockController;
+use App\Http\Controllers\ProduitStockController;
+use App\Http\Controllers\CategorieController;
+use Illuminate\Support\Facades\Route;
+use App\Menu\Rapport;
 
 Route::group([
     'prefix'     => config('boilerplate.app.prefix', ''),
@@ -72,6 +85,82 @@ Route::group([
                 });
             });
         }
+
+        // Categories
+        Route::get('categories/list', [CategorieController::class, 'index'])->name('categories.index');
+        Route::get('categories/create', [CategorieController::class, 'create'])->name('categories.create');
+        Route::post('categories/store', [CategorieController::class, 'store'])->name('categories.store');
+        Route::get('edit/{id_Categorie}', [CategorieController::class, 'edit'])->name('categories.edit');
+        Route::put('update/{id_Categorie}', [CategorieController::class, 'update'])->name('categories.update');
+        Route::delete('destroy/{id_Categorie}', [CategorieController::class, 'destroy'])->name('categories.destroy');
+
+        // matierepremieres
+        Route::get('matierepremieres/list', [MatierePremiereController::class, 'index'])->name('matierepremieres.index');
+        Route::get('matierepremieres/create', [MatierePremiereController::class, 'create'])->name('matierepremieres.create');
+        Route::post('matierepremieres/store', [MatierePremiereController::class, 'store'])->name('matierepremieres.store');
+        Route::get('matierepremieres/{id_MP}', [MatierePremiereController::class, 'show'])->name('matierepremieres.show');
+        Route::get('matierepremieres/{id_MP}/edit', [MatierePremiereController::class, 'edit'])->name('matierepremieres.edit');
+        Route::put('matierepremieres/{id_MP}', [MatierePremiereController::class, 'update'])->name('matierepremieres.update');
+        Route::delete('matierepremieres/{id_MP}', [MatierePremiereController::class, 'destroy'])->name('matierepremieres.destroy');
+
+        // produits
+        Route::get('produits/index', [ProduitController::class, 'index'])->name('produits.index');
+        Route::get('produits/create', [ProduitController::class, 'create'])->name('produits.create');
+        Route::post('produits/store', [ProduitController::class, 'store'])->name('produits.store');
+        Route::get('produits/{id_produit}', [ProduitController::class, 'show'])->name('produits.show');
+        Route::get('produits/{id_produit}/edit', [ProduitController::class, 'edit'])->name('produits.edit');
+        Route::put('produits/{id_produit}', [ProduitController::class, 'update'])->name('produits.update');
+        Route::delete('produits/{id_produit}', [ProduitController::class, 'destroy'])->name('produits.destroy');
+
+
+
+        // Approvisionnement Routes
+        Route::prefix('approvisionnements')->group(function () {
+            Route::get('statistiques', [ApprovisionnementController::class, 'statistiques'])->name('approvisionnements.statistiques');
+            Route::get('gerer', [ApprovisionnementController::class, 'index'])->name('approvisionnements.gerer');
+            Route::get('create', [ApprovisionnementController::class, 'create'])->name('approvisionnements.create');
+            Route::post('store', [ApprovisionnementController::class, 'store'])->name('approvisionnements.store');
+            Route::get('show/{id_approvisionnement}', [ApprovisionnementController::class, 'show'])->name('approvisionnements.show');
+            Route::get('edit/{id_approvisionnement}', [ApprovisionnementController::class, 'edit'])->name('approvisionnements.edit');
+            Route::put('update/{id_approvisionnement}', [ApprovisionnementController::class, 'update'])->name('approvisionnements.update');
+            Route::delete('destroy/{id_approvisionnement}', [ApprovisionnementController::class, 'destroy'])->name('approvisionnements.destroy');
+        });
+
+        // Fournisseurs
+        Route::get('fournisseurs', [FournisseurController::class, 'index'])->name('approvisionnements.fournisseurs');
+        Route::get('createfournisseur', [FournisseurController::class, 'create'])->name('approvisionnements.createfournisseur');
+        Route::post('store', [FournisseurController::class, 'store'])->name('fournisseurs.store');
+        Route::get('show/{id_fournisseur}', [FournisseurController::class, 'show'])->name('fournisseur.show');
+        Route::get('editfournisseur/{id_fournisseur}', [FournisseurController::class, 'edit'])->name('fournisseur.edit');
+        Route::put('update/{id_fournisseur}', [FournisseurController::class, 'update'])->name('fournisseurs.update');
+        Route::delete('destroy/{id_fournisseur}', [FournisseurController::class, 'destroy'])->name('fournisseur.destroy');
+
+        // Productions Routes
+        Route::prefix('productions')->group(function () {
+            Route::get('statistiques', [ProductionController::class, 'statistiques'])->name('productions.statistiques');
+            Route::get('gerer', [ProductionController::class, 'index'])->name('productions.gerer');
+            Route::get('create', [ProductionController::class, 'create'])->name('productions.create');
+            Route::post('store', [ProductionController::class, 'store'])->name('productions.store');
+            Route::get('show/{id_production}', [ProductionController::class, 'show'])->name('productions.show');
+            Route::get('edit/{id_production}', [ProductionController::class, 'edit'])->name('productions.edit');
+            Route::put('update/{id_production}', [ProductionController::class, 'update'])->name('productions.update');
+            Route::delete('destroy/{id_production}', [ProductionController::class, 'destroy'])->name('productions.destroy');
+        });
+
+        // Rapport
+        Route::get('rapport', [RapportController::class, 'index'])->name('rapport.index');
+
+        // Commandes Routes
+        Route::get('commandes/statistiques', [CommandeController::class, 'statistiques'])->name('commande.statistiques');
+        Route::get('commandes/gerer', [CommandeController::class, 'index'])->name('commande.gerer');
+
+        // Stocks Routes
+        Route::get('stocks/matierespremieres', [MatierePremieresStockController::class, 'index'])->name('stocks.matierespremieres');
+        Route::get('stocks/produits', [ProduitStockController::class, 'index'])->name('stocks.produits');
+
+        // Approbations Routes
+        Route::get('approbations/approbations', [ApprobationController::class, 'index'])->name('approbations.approbations');
+        Route::get('approbations/gerer', [ApprobationController::class, 'gerer'])->name('approbations.gerer');
 
         // Dashboard
         Route::get('/', [config('boilerplate.menu.dashboard', DashboardController::class), 'index'])->name('dashboard');

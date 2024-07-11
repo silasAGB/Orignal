@@ -9,13 +9,14 @@ class Produit extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'id_Produit';
+    protected $primaryKey = 'id_produit';
 
-    protected $fillable = ['reference_Produit', 'nom_Produit', 'description_Produit', 'prix_details_Produit', 'prix_gros_Produit', 'prix_Preparation', 'qte_Lot', 'qte_Stock', 'id_categorie'];
+    protected $fillable = ['reference_produit', 'nom_produit', 'description_produit', 'prix_details_produit',
+     'prix_gros_produit', 'qte_preparation', 'qte_lot', 'qte_stock', 'stock_min', 'emplacement', 'id_Categorie'];
 
     public function categorie()
     {
-        return $this->belongsTo(Categorie::class, 'id_categorie');
+        return $this->belongsTo(Categorie::class, 'id_Categorie');
     }
 
     public function matierePremieres()
